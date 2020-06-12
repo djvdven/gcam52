@@ -6,6 +6,7 @@
 supplysector,subsector,technology,1971,2010,2019,2020,2100
 industrial energy use,biomass,biomass,1,1,1,1,1
 industrial energy use,biomass,biomass cogen,0,0,1,1,1
+industrial energy use,traditional biomass,traditional biomass,1,1,1,1,1
 industrial energy use,coal,coal,1,1,1,1,1
 industrial energy use,coal,coal cogen,1,1,1,1,1
 industrial energy use,district heat,district heat,1,1,1,1,1

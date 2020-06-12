@@ -13,7 +13,7 @@ IPCC,IPCC_description,agg_sector
 1A3d,Inland navigation,trn_domestic ship
 1A3e,Other transportation,trn_other
 1A4,Residential and other sectors,bld
-1B1,Fugitive emissions from solid fuels,coal
+1B1,Fugitive emissions from solid fuels,solid_fuels
 1B2,Fugitive emissions from oil and gas,oil_gas
 2A7,Production of other minerals,industry_processes
 2B,Production of chemicals,chemicals

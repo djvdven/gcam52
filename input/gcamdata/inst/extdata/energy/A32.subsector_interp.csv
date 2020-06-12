@@ -5,6 +5,7 @@
 # ----------
 supplysector,subsector,apply.to,from.year,to.year,to.value,interpolation.function
 industrial energy use,biomass,share-weight,final-calibration-year,end-year,,fixed
+industrial energy use,traditional biomass,share-weight,final-calibration-year,end-year,,fixed
 industrial energy use,coal,share-weight,final-calibration-year,end-year,,fixed
 industrial energy use,district heat,share-weight,final-calibration-year,end-year,,fixed
 industrial energy use,electricity,share-weight,final-calibration-year,end-year,,fixed

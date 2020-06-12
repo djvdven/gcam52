@@ -10,7 +10,7 @@ CEMENT,cement
 CHEM,
 CHEMBULK,
 CUSM,
-End_Use_Industry_Bio_Trad,ind_bio
+End_Use_Industry_Bio_Trad,ind_tradbio
 End_Use_Industry_Coal,ind_coal
 End_Use_Industry_HLF,ind_oil
 End_Use_Industry_LLF,ind_oil

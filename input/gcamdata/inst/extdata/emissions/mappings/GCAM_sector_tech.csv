@@ -260,7 +260,7 @@ OtherGrain,OtherGrainAEZ15,OtherGrainAEZ15,OtherGrain,OtherGrainAEZ15,OtherGrain
 OtherGrain,OtherGrainAEZ16,OtherGrainAEZ16,OtherGrain,OtherGrainAEZ16,OtherGrainAEZ16,,,,,,,,Cropland Management,
 OtherGrain,OtherGrainAEZ17,OtherGrainAEZ17,OtherGrain,OtherGrainAEZ17,OtherGrainAEZ17,,,,,,,,Cropland Management,
 OtherGrain,OtherGrainAEZ18,OtherGrainAEZ18,OtherGrain,OtherGrainAEZ18,OtherGrainAEZ18,,,,,,,,Cropland Management,
-out_resources,coal,coal,out_resources,coal,coal,coal,all,all,coal,,,,Coal Mining Activities,
+out_resources,coal,coal,out_resources,coal,coal,coal,all,all,solid_fuels,,,,Coal Mining Activities,
 out_resources,crude oil,crude oil,out_resources,crude oil,crude oil,oil_gas,all,all,oil_gas,,,,Natural Gas and Oil Systems,
 out_resources,natural gas,natural gas,out_resources,natural gas,natural gas,oil_gas,all,all,oil_gas,,,,Natural Gas and Oil Systems,
 PalmFruit,PalmFruitAEZ01,PalmFruitAEZ01,PalmFruit,PalmFruitAEZ01,PalmFruitAEZ01,,,,,,,,Cropland Management,
@@ -464,3 +464,4 @@ Wheat,WheatAEZ15,WheatAEZ15,Wheat,WheatAEZ15,WheatAEZ15,,,,,,,,Cropland Manageme
 Wheat,WheatAEZ16,WheatAEZ16,Wheat,WheatAEZ16,WheatAEZ16,,,,,,,,Cropland Management,
 Wheat,WheatAEZ17,WheatAEZ17,Wheat,WheatAEZ17,WheatAEZ17,,,,,,,,Cropland Management,
 Wheat,WheatAEZ18,WheatAEZ18,Wheat,WheatAEZ18,WheatAEZ18,,,,,,,,Cropland Management,
+industry_energy,traditional biomass,traditional biomass,industrial energy use,traditional biomass,traditional biomass,coal,all,all,solid_fuels,ind,industry_energy,biomass,,ind_tradbio

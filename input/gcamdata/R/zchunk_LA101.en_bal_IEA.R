@@ -68,11 +68,13 @@ module_energy_LA101.en_bal_IEA <- function(command, ...) {
         na.omit() ->
         L101.IEA_en_bal_ctry_hist
 
+      `%notin%` <- Negate(`%in%`)
+
       # The IEA commodity "Primary solid biomass" (i.e., wood, dung, straw, etc) consumed by the
       # residential sector is assigned to the GCAM commodity "traditional biomass" in selected regions,
       # indicated in A_regions. (48-65)
       L101.IEA_en_bal_ctry_hist %>%
-        mutate(fuel = if_else(fuel == "biomass_tradbio" & sector != "in_bld_resid", "biomass", fuel)) %>%
+        mutate(fuel = if_else(fuel == "biomass_tradbio" & sector %notin% c("in_bld_resid","net_industry_energy transformation"), "biomass", fuel)) %>%
         left_join_error_no_match(select(A_regions, tradbio_region, GCAM_region_ID), by = "GCAM_region_ID") %>%
         # Rename biomass_tradbio to biomas fuel to tradbio_region 0 (USA)
         mutate(fuel = if_else(fuel == "biomass_tradbio" & tradbio_region == 0, "biomass", fuel)) %>%

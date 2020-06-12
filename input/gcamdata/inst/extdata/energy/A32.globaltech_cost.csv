@@ -6,6 +6,7 @@
 supplysector,subsector,technology,minicam.non.energy.input,1971,2100
 industrial energy use,biomass,biomass,non-energy,3,3
 industrial energy use,biomass,biomass cogen,non-energy,4.5,4.5
+industrial energy use,traditional biomass,traditional biomass,non-energy,3,3
 industrial energy use,coal,coal,non-energy,3,3
 industrial energy use,coal,coal cogen,non-energy,4.5,4.5
 industrial energy use,district heat,district heat,non-energy,3,3

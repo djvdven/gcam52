@@ -71,3 +71,4 @@ cement,refined liquids,process heat cement,refined liquids,refined liquids,refin
 N fertilizer,gas,N fertilizer,gas,gas,wholesale gas,output,
 N fertilizer,coal,N fertilizer,coal,coal,delivered coal,output,
 N fertilizer,refined liquids,N fertilizer,refined liquids,refined liquids,refined liquids industrial,output,
+industry_energy,traditional biomass,industrial energy use,traditional biomass,traditional biomass,traditional biomass,input,

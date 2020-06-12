@@ -5,7 +5,7 @@
 # ----------
 fuel,electricity,heat,bld,industry,trn
 biomass,biomass,biomass,biomass,biomass,
-biomass_tradbio,,,traditional biomass,,
+biomass_tradbio,,,traditional biomass,traditional biomass,
 coal,coal,coal,coal,coal,coal
 elec_geothermal,geothermal,,,,
 elec_hydro,hydro,,,,

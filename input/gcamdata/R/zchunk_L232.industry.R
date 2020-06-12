@@ -115,7 +115,7 @@ module_energy_L232.industry <- function(command, ...) {
 
     # ===================================================
     # 0. Give binding for variable names used in pipeline
-    has_district_heat <- sector <- fuel <- supplysector <- subsector <-
+    has_district_heat <- tradbio_region <- sector <- fuel <- supplysector <- subsector <-
       technology <- year.fillout <- to.value <- year <- share.weight <-
       efficiency <- minicam.energy.input <- secondary.output <- coefficient <-
       elec_ratio <- output.ratio <- . <- year.x <- output.ratio.x <- output.ratio.y <-
@@ -137,12 +137,22 @@ module_energy_L232.industry <- function(command, ...) {
     # Create tables to delete technologies and subsectors in regions where heat is not modeled as a fuel
     has_not_heat <- filter(A_regions, has_district_heat == 0) # intermediate tibble
 
+    # DV: Same for traditional biomass
+    has_not_tradbio <- filter(A_regions, tradbio_region == 0) # intermediate tibble
+
     calibrated_techs %>%
       filter(grepl("industry", sector) & fuel == "heat") %>%
       select(supplysector, subsector, technology) %>%
       repeat_add_columns(tibble(GCAM_region_ID = has_not_heat[["GCAM_region_ID"]])) %>%
       left_join_error_no_match(GCAM_region_names, by = "GCAM_region_ID") ->
       L232.rm_heat_techs_R # intermediate tibble
+
+    calibrated_techs %>%
+      filter(grepl("industry", sector) & fuel == "traditional biomass") %>%
+      select(supplysector, subsector, technology) %>%
+      repeat_add_columns(tibble(GCAM_region_ID = has_not_tradbio[["GCAM_region_ID"]])) %>%
+      left_join_error_no_match(GCAM_region_names, by = "GCAM_region_ID") ->
+      L232.rm_tradbio_techs_R # intermediate tibble
 
     # 1a. Supplysector information
     # L232.Supplysector_ind: Supply sector information for industry sector
@@ -160,21 +170,24 @@ module_energy_L232.industry <- function(command, ...) {
     # L232.SubsectorLogit_ind: Subsector logit exponents of industry sector
     A32.subsector_logit %>%
       write_to_all_regions(c(LEVEL2_DATA_NAMES[["SubsectorLogit"]], LOGIT_TYPE_COLNAME), GCAM_region_names) %>%
-      anti_join(L232.rm_heat_techs_R, by = c("region", "subsector")) -> # Remove non-existent heat subsectors from each region
+      anti_join(L232.rm_heat_techs_R, by = c("region", "subsector")) %>% # Remove non-existent heat subsectors from each region
+      anti_join(L232.rm_tradbio_techs_R, by = c("region", "subsector")) -> # DV: Remove non-existent traditional biomass subsectors from each region
       L232.SubsectorLogit_ind
 
     # L232.SubsectorShrwtFllt_ind: Subsector shareweights of industry sector
     A32.subsector_shrwt %>%
       filter(!is.na(year.fillout)) %>%
       write_to_all_regions(LEVEL2_DATA_NAMES[["SubsectorShrwtFllt"]], GCAM_region_names) %>%
-      anti_join(L232.rm_heat_techs_R, by = c("region", "subsector")) -> # Remove non-existent heat technologies from each region
+      anti_join(L232.rm_heat_techs_R, by = c("region", "subsector")) %>% # Remove non-existent heat technologies from each region
+      anti_join(L232.rm_tradbio_techs_R, by = c("region", "subsector")) -> # DV: Remove non-existent traditional biomass technologies from each region
       L232.SubsectorShrwtFllt_ind
 
     # L232.SubsectorInterp_ind: Subsector shareweight interpolation of industry sector
     A32.subsector_interp %>%
       filter(is.na(to.value)) %>%
       write_to_all_regions(LEVEL2_DATA_NAMES[["SubsectorInterp"]], GCAM_region_names) %>%
-      anti_join(L232.rm_heat_techs_R, by = c("region", "subsector")) -> # Remove non-existent heat technologies from each region
+      anti_join(L232.rm_heat_techs_R, by = c("region", "subsector")) %>% # Remove non-existent heat technologies from each region
+      anti_join(L232.rm_tradbio_techs_R, by = c("region", "subsector")) -> # DV: Remove non-existent traditional biomass technologies from each region
       L232.SubsectorInterp_ind
 
     # 1c. Technology information
@@ -183,6 +196,7 @@ module_energy_L232.industry <- function(command, ...) {
     A32.globaltech_shrwt %>%
       write_to_all_regions(LEVEL2_DATA_NAMES[["Tech"]], GCAM_region_names) %>%
       anti_join(L232.rm_heat_techs_R, by = c("region", "technology")) %>% # Remove non-existent heat technologies from each region
+      anti_join(L232.rm_tradbio_techs_R, by = c("region", "technology")) %>% # DV: Remove non-existent traditional biomass technologies from each region
       rename(stub.technology = technology) ->
       L232.StubTech_ind
 
@@ -572,7 +586,7 @@ module_energy_L232.industry <- function(command, ...) {
     L232.SubsectorLogit_ind %>%
       add_title("Subsector logit exponents of industry sector") %>%
       add_units("Unitless") %>%
-      add_comments("For industry sector, the subsector logit exponents from A32.subsector_logit are expanded into all GCAM regions with non-existent heat subsectors removed") %>%
+      add_comments("For industry sector, the subsector logit exponents from A32.subsector_logit are expanded into all GCAM regions with non-existent heat and tradbio subsectors removed") %>%
       add_legacy_name("L232.SubsectorLogit_ind") %>%
       add_precursors("energy/A32.subsector_logit", "common/GCAM_region_names", "energy/A_regions", "energy/calibrated_techs") ->
       L232.SubsectorLogit_ind
@@ -588,7 +602,7 @@ module_energy_L232.industry <- function(command, ...) {
     L232.SubsectorShrwtFllt_ind %>%
       add_title("Subsector shareweights of industry sector") %>%
       add_units("Unitless") %>%
-      add_comments("For industry sector, the subsector shareweights from A32.subsector_shrwt are expanded into all GCAM regions with non-existent heat technologies") %>%
+      add_comments("For industry sector, the subsector shareweights from A32.subsector_shrwt are expanded into all GCAM regions with non-existent heat and tradbio technologies") %>%
       add_legacy_name("L232.SubsectorShrwtFllt_ind") %>%
       add_precursors("energy/A32.subsector_shrwt", "common/GCAM_region_names", "energy/A_regions", "energy/calibrated_techs") ->
       L232.SubsectorShrwtFllt_ind
@@ -596,7 +610,7 @@ module_energy_L232.industry <- function(command, ...) {
     L232.SubsectorInterp_ind %>%
       add_title("Subsector shareweight interpolation of industry sector") %>%
       add_units("NA") %>%
-      add_comments("For industry sector, the subsector shareweight interpolation function infromation from A32.subsector_interp is expanded into all GCAM regions with non-existent heat technologies removed") %>%
+      add_comments("For industry sector, the subsector shareweight interpolation function infromation from A32.subsector_interp is expanded into all GCAM regions with non-existent heat and tradbio technologies removed") %>%
       add_legacy_name("L232.SubsectorInterp_ind") %>%
       add_precursors("energy/A32.subsector_interp", "common/GCAM_region_names", "energy/A_regions", "energy/calibrated_techs") ->
       L232.SubsectorInterp_ind
@@ -604,7 +618,7 @@ module_energy_L232.industry <- function(command, ...) {
     L232.StubTech_ind %>%
       add_title("Identification of stub technologies of industrial sector") %>%
       add_units("NA") %>%
-      add_comments("For industry sector, the stub technologies from A32.globaltech_shrwt are expanded into all GCAM regions with non-existent heat technologies removed") %>%
+      add_comments("For industry sector, the stub technologies from A32.globaltech_shrwt are expanded into all GCAM regions with non-existent heat and tradbio technologies removed") %>%
       add_legacy_name("L232.StubTech_ind") %>%
       add_precursors("energy/A32.globaltech_shrwt", "common/GCAM_region_names", "energy/A_regions", "energy/calibrated_techs") ->
       L232.StubTech_ind

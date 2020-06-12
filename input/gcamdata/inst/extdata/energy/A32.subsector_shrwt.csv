@@ -5,6 +5,7 @@
 # ----------
 supplysector,subsector,year.fillout,year,share.weight
 industrial energy use,biomass,start-year,,1
+industrial energy use,traditional biomass,start-year,,1
 industrial energy use,coal,start-year,,1
 industrial energy use,district heat,start-year,,1
 industrial energy use,electricity,start-year,,1

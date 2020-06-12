@@ -52,7 +52,7 @@ module_energy_LA132.industry <- function(command, ...) {
     # 0. Give binding for variable names used in pipeline
     sector <- sector_agg <- electricity <- heat <- bld <-
       trn <- fuel <- industry <- GCAM_region_ID <- year <-
-      value <- value.x <- value.y <- has_district_heat <- fuel.y <- fuel.x <- NULL
+      value <- value.x <- value.y <- has_district_heat <- tradbio_region <- fuel.y <- fuel.x <- NULL
 
     # 1. Perform computations
 
@@ -170,8 +170,17 @@ module_energy_LA132.industry <- function(command, ...) {
       mutate(fuel = "heat") ->
       region_heat
 
+    # DV: same for traditional biomass
+    A_regions %>%
+      filter(tradbio_region == 0) %>%
+      select(GCAM_region_ID) %>%
+      unique %>%
+      mutate(fuel = "traditional biomass") ->
+      region_tradbio
+
     L132.in_EJ_R_Sindenergy_F_Yh %>%
       anti_join(region_heat, by = c("GCAM_region_ID", "fuel")) %>% # then drop the regions selected in region_heat
+      anti_join(region_tradbio, by = c("GCAM_region_ID", "fuel")) %>% # then drop the regions selected in region_tradbio
       group_by(GCAM_region_ID, sector, fuel, year) %>%
       summarise(value = sum(value)) ->
       ungroup ->

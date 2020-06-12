@@ -5,6 +5,7 @@
 # ----------
 supplysector,subsector,logit.exponent,logit.type
 industrial energy use,biomass,-6,
+industrial energy use,traditional biomass,-6,
 industrial energy use,coal,-6,
 industrial energy use,district heat,-6,
 industrial energy use,electricity,-6,
